@@ -4,69 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{ .Title }}</title>
+  <title>{{ .Site.Title }}</title>
+  <link rel="stylesheet" href="https://cdn.honokak.osaka/honoka/4.3.1/css/bootstrap.min.css">
   <style>
-    img {
+    .emoji img {
       width: 64px;
       height: 64px;
     }
     ul.emoji {
-      margin: 0;
+      margin: 0 0 -1rem -1rem;
       padding: 0;
       overflow: hidden;
     }
     ul.emoji > li {
-      float: left;
-      margin: 5px;
+      margin: 0 0 1rem 1rem;
       list-style: none;
     }
   </style>
 </head>
 <body>
-  <h1>{{ .Title }}</h1>
-  <section>
-    <h2>Original</h2>
-    <p>License under the <a href="original/LICENSE">CC-BY 4.0</a></p>
-    <ul class="emoji">
-{{- range (readDir "content/original") }}
-{{- if ne .Name "LICENSE"  }}
-  {{- $name := split .Name "." }}
-      <li><img src="original/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
-  {{- end }}
-{{- end }}
-    </ul>
-  </section>
-  <section>
-    <h2>raryosu</h2>
-    <p><q>商用利用やらりょすに関係のないところでの利用以外はフリー</q></p>
-    <ul class="emoji">
-{{- range (readDir "content/raryosu") }}
-{{- $name := split .Name "." }}
-      <li><img src="raryosu/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
-{{- end }}
-    </ul>
-  </section>
-  <section>
-    <h2>Brand</h2>
-    <ul class="emoji">
-{{- range (readDir "content/brand") }}
-{{- $name := split .Name "." }}
-      <li><img src="brand/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
-{{- end }}
-    </ul>
-  </section>
-  <section>
-    <h2>Other</h2>
-    <ul class="emoji">
-{{- range (readDir "content/other") }}
-{{- $name := split .Name "." }}
-      <li><img src="other/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
-{{- end }}
-    </ul>
-  </section>
-  <footer>
-    <hr>
-    <a href="https://napple.team">Napple Team</a>
-  </footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 py-3">
+
+        <header>
+          <h1 class="display-4">{{ .Site.Title }}</h1>
+        </header>
+
+        <main>
+          {{- range .Site.Params.emoji.categories }}
+            <section class="my-4">
+              {{- $category := . }}
+              <h2>{{ humanize $category }}</h2>
+              {{- $licenseFilePath := printf "content/%s/LICENSE" $category }}
+              {{- if (fileExists $licenseFilePath) }}
+              <blockquote>
+                {{ readFile (printf "%s.summary" $licenseFilePath) | markdownify }}
+              </blockquote>
+              {{- end }}
+              <ul class="emoji d-flex flex-wrap justify-content-start">
+                {{- range ( readDir (printf "content/%s" $category ) ) }}
+                  {{- if and (ne .Name "LICENSE") (ne .Name "LICENSE.summary") }}
+                    {{- $name := index (split .Name ".") 0 }}
+                    <li><img src="{{ $category }}/{{ .Name }}" alt="{{ $name }}" title=":{{ $name }}:" data-toggle="tooltip" data-placement="top"></li>
+                  {{- end }}
+                {{- end }}
+              </ul>
+            {{- end }}
+          </section>
+        </main>
+        <footer class="mt-4 text-right">
+          Powered by <a href="https://napple.team">Napple Team</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.honokak.osaka/honoka/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 </body>
 </html>

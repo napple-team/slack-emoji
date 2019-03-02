@@ -1,4 +1,7 @@
 baseURL = "https://emoji.napple.team/"
 languageCode = "ja"
 title = "Napple Slack Emoji Set"
-disableKinds= [ "RSS", "404", "sitemap" ]
+disableKinds = [ "RSS", "404", "sitemap" ]
+
+[params.emoji]
+categories = [ "original", "raryosu", "brand", "other" ]

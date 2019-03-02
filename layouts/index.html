@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{ .Site.Title }}</title>
+  <link rel="stylesheet" href="https://cdn.honokak.osaka/honoka/4.3.1/css/bootstrap.min.css">
+  <style>
+    .emoji img {
+      width: 64px;
+      height: 64px;
+    }
+    ul.emoji {
+      margin: 0 0 -1rem -1rem;
+      padding: 0;
+      overflow: hidden;
+    }
+    ul.emoji > li {
+      margin: 0 0 1rem 1rem;
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 py-3">
+
+        <header>
+          <h1 class="display-4">{{ .Site.Title }}</h1>
+          <p>Napple Team で使用している Slack に登録されている Emoji の一部です。</p>
+        </header>
+
+        <main>
+          {{- range .Site.Params.emoji.categories }}
+            <section class="my-4">
+              {{- $category := . }}
+              <h2>{{ humanize $category }}</h2>
+              {{- $licenseFilePath := printf "content/%s/LICENSE" $category }}
+              {{- if (fileExists $licenseFilePath) }}
+              <blockquote>
+                {{ readFile (printf "%s.summary" $licenseFilePath) | markdownify }}
+              </blockquote>
+              {{- end }}
+              <ul class="emoji d-flex flex-wrap justify-content-start">
+                {{- range ( readDir (printf "content/%s" $category ) ) }}
+                  {{- if and (ne .Name "LICENSE") (ne .Name "LICENSE.summary") (ne .Name ".DS_Store") }}
+                    {{- $name := index (split .Name ".") 0 }}
+                    <li><img src="{{ $category }}/{{ .Name }}" alt="{{ $name }}" title=":{{ $name }}:" data-toggle="tooltip" data-placement="top"></li>
+                  {{- end }}
+                {{- end }}
+              </ul>
+            {{- end }}
+          </section>
+        </main>
+        <footer class="mt-4 text-right">
+          <a href="https://github.com/napple-team/slack-emoji">GitHub Repository</a>
+          &CenterDot;
+          Powered by <a href="https://napple.team">Napple Team</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.honokak.osaka/honoka/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+</body>
+</html>

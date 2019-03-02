@@ -4,7 +4,7 @@ Napple Team で使用している Slack の Emoji です。
 
 ## Preview
 
-[Preview](https://napple-team.github.io/slack-emoji/preview.html)
+[Preview](https://emoji.napple.team/)
 
 ## License
 

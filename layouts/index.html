@@ -45,7 +45,7 @@
               {{- end }}
               <ul class="emoji d-flex flex-wrap justify-content-start">
                 {{- range ( readDir (printf "content/%s" $category ) ) }}
-                  {{- if and (ne .Name "LICENSE") (ne .Name "LICENSE.summary") }}
+                  {{- if and (ne .Name "LICENSE") (ne .Name "LICENSE.summary") (ne .Name ".DS_Store") }}
                     {{- $name := index (split .Name ".") 0 }}
                     <li><img src="{{ $category }}/{{ .Name }}" alt="{{ $name }}" title=":{{ $name }}:" data-toggle="tooltip" data-placement="top"></li>
                   {{- end }}

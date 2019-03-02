@@ -4,4 +4,4 @@ title = "Napple Slack Emoji Set"
 disableKinds = [ "RSS", "404", "sitemap" ]
 
 [params.emoji]
-categories = [ "original", "raryosu", "brand", "other" ]
+categories = [ "original", "raryosu", "brand", "train", "other" ]

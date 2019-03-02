@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{ .Title }}</title>
+  <style>
+    img {
+      width: 64px;
+      height: 64px;
+    }
+    ul.emoji {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    ul.emoji > li {
+      float: left;
+      margin: 5px;
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ .Title }}</h1>
+  <section>
+    <h2>Original</h2>
+    <p>License under the <a href="original/LICENSE">CC-BY 4.0</a></p>
+    <ul class="emoji">
+{{- range (readDir "content/original") }}
+{{- if ne .Name "LICENSE"  }}
+  {{- $name := split .Name "." }}
+      <li><img src="original/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
+  {{- end }}
+{{- end }}
+    </ul>
+  </section>
+  <section>
+    <h2>raryosu</h2>
+    <p><q>商用利用やらりょすに関係のないところでの利用以外はフリー</q></p>
+    <ul class="emoji">
+{{- range (readDir "content/raryosu") }}
+{{- $name := split .Name "." }}
+      <li><img src="raryosu/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
+{{- end }}
+    </ul>
+  </section>
+  <section>
+    <h2>Brand</h2>
+    <ul class="emoji">
+{{- range (readDir "content/brand") }}
+{{- $name := split .Name "." }}
+      <li><img src="brand/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
+{{- end }}
+    </ul>
+  </section>
+  <section>
+    <h2>Other</h2>
+    <ul class="emoji">
+{{- range (readDir "content/other") }}
+{{- $name := split .Name "." }}
+      <li><img src="other/{{ .Name }}" alt="{{ index $name 0 }}" title="{{ index $name 0 }}"></li>
+{{- end }}
+    </ul>
+  </section>
+  <footer>
+    <hr>
+    <a href="https://napple.team">Napple Team</a>
+  </footer>
+</body>
+</html>
